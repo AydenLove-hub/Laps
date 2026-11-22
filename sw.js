@@ -1,5 +1,5 @@
 /* Laps offline support. Bump VERSION whenever any file changes. */
-const VERSION = 'laps-2.0.0';
+const VERSION = 'laps-3.0.0';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png',
