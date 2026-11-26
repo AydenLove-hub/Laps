@@ -9,7 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Laps">
-<meta name="description" content="Daily schedule, training, food, sleep and habit tracker. Your data stays on your phone.">
+<meta name="description" content="Daily schedule, training, food, sleep and habit tracker.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -317,9 +317,35 @@ body.flash #flash{animation:fl .7s ease-out 3}
 .mrow .meter.lo i{background:var(--mute)}
 .mrow b{font:600 18px var(--num);text-align:right;white-space:nowrap}
 .fig.sm{height:170px}
+.acct{background:var(--s1);border-radius:20px;padding:16px}
+.acct .who{font:700 22px/1.2 var(--num);word-break:break-all}
+.sync-line{display:flex;align-items:center;gap:8px;margin:6px 0 14px;color:var(--mute);font-size:15px}
+.sync-dot{width:9px;height:9px;border-radius:50%;background:var(--dim);flex:none}
+.sync-dot.ok{background:var(--acc)}.sync-dot.busy{background:var(--ink);animation:pulse 1s ease-in-out infinite alternate}.sync-dot.err{background:#ff7a7a}
+@keyframes pulse{from{opacity:.3}to{opacity:1}}
+.cloud-chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mute)}
+.err-t{color:#ff9a9a;font-size:14px;margin:0}
+@media(prefers-reduced-motion:reduce){.sync-dot.busy{animation:none}}
 .sug{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--acc) 13%,transparent);font-size:14px;line-height:1.45}
 .sug b{color:var(--acc);font:700 18px var(--num)}
 .sheet p.lab{margin:18px 0 2px;color:var(--mute)}
+.sheet .list{background:var(--s2);border-radius:18px}
+.pe-row{display:flex;align-items:center;gap:2px;padding:2px 4px 2px 10px;border-top:1px solid var(--line)}
+.pe-row:first-child{border-top:0}
+.pe-row.hl{background:color-mix(in srgb,var(--acc) 13%,transparent)}
+.pe-n{font:600 18px var(--num);color:var(--mute);width:20px;flex:none;text-align:center}
+.pe-main{flex:1;display:grid;gap:1px;min-height:60px;padding:8px 6px;border:0;background:none;text-align:left}
+.pe-row .x{color:var(--mute)}
+.xmus{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -18px;padding:2px 18px}.xmus::-webkit-scrollbar{display:none}
+.xmus .chip{flex:none;min-height:38px;padding:0 14px}
+.xrow{min-height:58px}.xrow .plus{font:600 26px var(--num);color:var(--acc);width:24px;text-align:center}
+.tag.soft{background:var(--s1);color:var(--mute)}
+.lv-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lv-tools{display:flex;gap:6px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--edge);background:none;color:var(--ink);font-weight:600;font-size:14px}
+.pill svg{width:16px;height:16px}.pill.icon{padding:0 10px}
+.btn:disabled{opacity:.35}
+.btn>svg{width:20px;height:20px;flex:none}
 .rp-head{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-weight:500}
 .rp-head .x:disabled{opacity:.25}
 .rp-grade{display:flex;align-items:center;gap:16px;margin:6px 0 2px}.rp-grade b{font:700 76px/1 var(--num);color:var(--acc)}.rp-grade span{color:var(--mute)}
@@ -412,6 +438,9 @@ const ICON={
   dots:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
   bell:'<svg class="bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Reminder on" role="img"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2.2 2.2 0 0 0 4 0"/></svg>',
   star:sv('<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"/>'),
+  swap:sv('<path d="M7 4 3.5 7.5 7 11M3.5 7.5H17M17 13l3.5 3.5L17 20m3.5-3.5H7"/>'),
+  trash:sv('<path d="M4 7h16M10 11v6m4-6v6M6 7l1 12.5a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5L18 7M9 7V4.5h6V7"/>'),
+  up:sv('<path d="M12 19V5M6 11l6-6 6 6"/>'),down:sv('<path d="M12 5v14M6 13l6 6 6-6"/>'),
   prev:sv('<path d="M15 5l-7 7 7 7"/>'),next:sv('<path d="M9 5l7 7-7 7"/>'),
   check:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
@@ -449,7 +478,32 @@ function defaultSchedule(supps,habits){
 
 /* ---------- workout plan ---------- */
 const MUSCLES=['Chest','Back','Shoulders','Biceps','Triceps','Quads','Hamstrings','Glutes','Calves','Abs','Forearms','Other'];
-const MUSCLE_OF={'bench press':'Chest','incline dumbbell press':'Chest','chest press':'Chest','incline chest press':'Chest','pec fly':'Chest','cable fly':'Chest','dips':'Triceps','lat pulldown':'Back','seated cable row':'Back','pull-up':'Back','chest-supported row':'Back','deadlift':'Back','shoulder press':'Shoulders','overhead press':'Shoulders','lateral raise':'Shoulders','rear delt fly':'Shoulders','bicep curl':'Biceps','hammer curl':'Biceps','preacher curl':'Biceps','tricep pushdown':'Triceps','overhead tricep extension':'Triceps','squat':'Quads','hack squat':'Quads','leg press':'Quads','leg extension':'Quads','romanian deadlift':'Hamstrings','leg curl':'Hamstrings','hip thrust':'Glutes','hip abductor':'Glutes','hip adductor':'Glutes','calf raise':'Calves','ab crunch machine':'Abs','hanging leg raise':'Abs'};
+/* Built-in exercise library: [name, muscle, equipment]. Your own exercises are added on top. */
+const EXLIB=[
+  ['Bench press','Chest','Barbell'],['Incline bench press','Chest','Barbell'],['Decline bench press','Chest','Barbell'],['Dumbbell bench press','Chest','Dumbbell'],['Incline dumbbell press','Chest','Dumbbell'],
+  ['Chest press','Chest','Machine'],['Incline chest press','Chest','Machine'],['Smith machine bench press','Chest','Smith'],['Smith machine incline press','Chest','Smith'],['Pec fly','Chest','Machine'],
+  ['Cable fly','Chest','Cable'],['Low-to-high cable fly','Chest','Cable'],['Dumbbell fly','Chest','Dumbbell'],['Push-up','Chest','Bodyweight'],['Chest dip','Chest','Bodyweight'],
+  ['Lat pulldown','Back','Cable'],['Close-grip lat pulldown','Back','Cable'],['Pull-up','Back','Bodyweight'],['Chin-up','Back','Bodyweight'],['Assisted pull-up','Back','Machine'],
+  ['Seated cable row','Back','Cable'],['Chest-supported row','Back','Machine'],['Machine row','Back','Machine'],['T-bar row','Back','Barbell'],['Barbell row','Back','Barbell'],
+  ['One-arm dumbbell row','Back','Dumbbell'],['Straight-arm pulldown','Back','Cable'],['Pullover machine','Back','Machine'],['Deadlift','Back','Barbell'],['Back extension','Back','Bodyweight'],
+  ['Shoulder press','Shoulders','Machine'],['Overhead press','Shoulders','Barbell'],['Dumbbell shoulder press','Shoulders','Dumbbell'],['Arnold press','Shoulders','Dumbbell'],['Lateral raise','Shoulders','Dumbbell'],
+  ['Cable lateral raise','Shoulders','Cable'],['Machine lateral raise','Shoulders','Machine'],['Rear delt fly','Shoulders','Machine'],['Reverse cable fly','Shoulders','Cable'],['Face pull','Shoulders','Cable'],
+  ['Front raise','Shoulders','Dumbbell'],['Upright row','Shoulders','Cable'],['Shrug','Shoulders','Dumbbell'],
+  ['Bicep curl','Biceps','Dumbbell'],['Barbell curl','Biceps','Barbell'],['EZ-bar curl','Biceps','Barbell'],['Hammer curl','Biceps','Dumbbell'],['Preacher curl','Biceps','Machine'],
+  ['Cable curl','Biceps','Cable'],['Incline dumbbell curl','Biceps','Dumbbell'],['Concentration curl','Biceps','Dumbbell'],['Bayesian cable curl','Biceps','Cable'],
+  ['Tricep pushdown','Triceps','Cable'],['Rope pushdown','Triceps','Cable'],['Overhead tricep extension','Triceps','Cable'],['Skull crusher','Triceps','Barbell'],['Close-grip bench press','Triceps','Barbell'],
+  ['Dips','Triceps','Bodyweight'],['Tricep dip machine','Triceps','Machine'],['Dumbbell kickback','Triceps','Dumbbell'],['Single-arm cable extension','Triceps','Cable'],
+  ['Squat','Quads','Barbell'],['Front squat','Quads','Barbell'],['Hack squat','Quads','Machine'],['Leg press','Quads','Machine'],['Leg extension','Quads','Machine'],['Pendulum squat','Quads','Machine'],
+  ['Smith machine squat','Quads','Smith'],['Goblet squat','Quads','Dumbbell'],['Bulgarian split squat','Quads','Dumbbell'],['Walking lunge','Quads','Dumbbell'],['Step-up','Quads','Dumbbell'],
+  ['Romanian deadlift','Hamstrings','Barbell'],['Dumbbell Romanian deadlift','Hamstrings','Dumbbell'],['Leg curl','Hamstrings','Machine'],['Seated leg curl','Hamstrings','Machine'],['Lying leg curl','Hamstrings','Machine'],
+  ['Good morning','Hamstrings','Barbell'],['Nordic curl','Hamstrings','Bodyweight'],
+  ['Hip thrust','Glutes','Barbell'],['Hip thrust machine','Glutes','Machine'],['Glute bridge','Glutes','Bodyweight'],['Hip abductor','Glutes','Machine'],['Hip adductor','Glutes','Machine'],['Cable kickback','Glutes','Cable'],
+  ['Calf raise','Calves','Machine'],['Seated calf raise','Calves','Machine'],['Leg press calf raise','Calves','Machine'],['Smith machine calf raise','Calves','Smith'],
+  ['Hanging leg raise','Abs','Bodyweight'],['Ab crunch machine','Abs','Machine'],['Cable crunch','Abs','Cable'],['Plank','Abs','Bodyweight'],['Ab wheel rollout','Abs','Bodyweight'],
+  ['Decline sit-up','Abs','Bodyweight'],['Captain’s chair knee raise','Abs','Bodyweight'],['Russian twist','Abs','Bodyweight'],
+  ['Wrist curl','Forearms','Dumbbell'],['Reverse curl','Forearms','Barbell'],['Farmer’s carry','Forearms','Dumbbell']];
+const EQUIP_OF=Object.fromEntries(EXLIB.map(([n,,q])=>[n.toLowerCase(),q]));
+const MUSCLE_OF={...Object.fromEntries(EXLIB.map(([n,m])=>[n.toLowerCase(),m])),'bench press':'Chest','incline dumbbell press':'Chest','chest press':'Chest','incline chest press':'Chest','pec fly':'Chest','cable fly':'Chest','dips':'Triceps','lat pulldown':'Back','seated cable row':'Back','pull-up':'Back','chest-supported row':'Back','deadlift':'Back','shoulder press':'Shoulders','overhead press':'Shoulders','lateral raise':'Shoulders','rear delt fly':'Shoulders','bicep curl':'Biceps','hammer curl':'Biceps','preacher curl':'Biceps','tricep pushdown':'Triceps','overhead tricep extension':'Triceps','squat':'Quads','hack squat':'Quads','leg press':'Quads','leg extension':'Quads','romanian deadlift':'Hamstrings','leg curl':'Hamstrings','hip thrust':'Glutes','hip abductor':'Glutes','hip adductor':'Glutes','calf raise':'Calves','ab crunch machine':'Abs','hanging leg raise':'Abs'};
 const DAYF=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],WEEK_ORDER=[1,2,3,4,5,6,0];
 const mmss=s=>{s=Math.max(0,Math.round(s));return`${Math.floor(s/60)}:${pad(s%60)}`};
 function defaultPlan(){
@@ -499,7 +553,7 @@ const photoPut=(k,b)=>run('photos','readwrite',s=>s.put(b,k));
 const photoGet=k=>run('photos','readonly',s=>s.get(k));
 const photoDel=k=>run('photos','readwrite',s=>s.delete(k));
 const photoKeys=()=>run('photos','readonly',s=>s.getAllKeys());
-function put(key,val){if(!idb)return;kvPut(key,structuredClone(val)).catch(()=>toast('Couldn’t save. Your phone’s storage may be full.'))}
+function put(key,val){if(!idb)return;kvPut(key,structuredClone(val)).catch(()=>toast('Couldn’t save. Your phone’s storage may be full.'));touch(key)}
 const saveSettings=()=>put('meta/settings',S.set);
 const saveLifts=()=>put('meta/lifts',S.lifts);
 function editDay(k,fn){const d=structuredClone(day(k));fn(d);S.days[k]=d;put('days/'+k,d);render()}
@@ -642,7 +696,7 @@ function recovery(k,d){
   return n>=7?`<b>${n} days straight.</b> Plan a rest day this week. Your body adapts while it recovers.`:'';
 }
 function backupNote(k){
-  if(Object.keys(S.days).length<3)return '';
+  if(Object.keys(S.days).length<3||(SYNC.user&&SYNC.ready))return '';
   const lb=S.set.lastBackup;if(lb&&diff(lb,k)<7)return '';
   return `<b>Back up your log.</b> ${lb?`Last backup was ${plural(diff(lb,k),'day')} ago.`:'You haven’t backed up yet.'} It only lives on this phone. <button type="button" class="link" data-a="backup">Back up now</button>`;
 }
@@ -876,6 +930,7 @@ function vYou(){
   const lifts=S.lifts.list.map(l=>`<div class="entry"><div class="main"><div class="t">${esc(l.name)}</div></div><button type="button" class="x" data-a="delliftdef" data-x="${esc(l.id)}" aria-label="Remove ${esc(l.name)}">${ICON.x}</button></div>`).join('');
   const nRem=s.schedule.filter(it=>it.remind&&it.time).length;
   return `<header class="bar band"><h1>You</h1><p>Your schedule, targets, look and backups. Changes save as you go.</p></header>
+  ${accountBlock()}
   <section class="band"><h2>Accent</h2><div class="sw" role="radiogroup" aria-label="Accent color">${ACCENTS.map(([id,c,n])=>`<label style="--c:${c}"><input type="radio" name="accent" value="${id}" data-accent${s.accent===id?' checked':''}><i></i>${n}</label>`).join('')}</div></section>
   <section class="band"><h2>Daily schedule <small>${plural(s.schedule.length,'item')}</small></h2>
     ${sched||'<div class="empty">Nothing scheduled yet.</div>'}
@@ -928,7 +983,7 @@ function drawWeight(){
 const ro=new ResizeObserver(()=>drawWeight());
 async function fillPhotos(){
   for(const im of view.querySelectorAll('img[data-photo]')){const k=im.dataset.photo;
-    try{if(!S.purl[k]){const b=await photoGet(k);if(!b)continue;S.purl[k]=URL.createObjectURL(b)}im.src=S.purl[k]}catch(e){}}
+    try{if(!S.purl[k]){let b=await photoGet(k);if(!b)b=await photoFetch(k);if(!b)continue;S.purl[k]=URL.createObjectURL(b)}im.src=S.purl[k]}catch(e){}}
 }
 
 /* ---------- render ---------- */
@@ -956,7 +1011,8 @@ function openSheet(title,body,{submit,live,label='Save',btn=true}={}){
 function closeSheet(){document.body.classList.remove('open');onSub=null;onLive=null;if(pending)render()}
 shf.addEventListener('submit',async e=>{e.preventDefault();if(!onSub||busySub)return;busySub=true;
   try{const r=await onSub(new FormData(shf));if(r!==false)closeSheet()}finally{busySub=false}});
-shf.addEventListener('input',e=>{if(e.target&&e.target.id==='fsearch'){foodResults(e.target.value);return}if(onLive)onLive(new FormData(shf))});
+shf.addEventListener('input',e=>{if(e.target&&e.target.id==='fsearch'){foodResults(e.target.value);return}if(e.target&&e.target.id==='xsearch'){PK.q=e.target.value;pickerRender();return}if(onLive)onLive(new FormData(shf))});
+shf.addEventListener('change',e=>{const el=e.target;if(el.name!=='pname'||planEdit==null)return;const v=el.value.trim(),d=S.set.plan.days[planEdit];planName=v;if(d){d.name=v||'Workout';saveSettings();render()}});
 shf.addEventListener('change',e=>{
   const el=e.target;if(!el.classList||!el.classList.contains('exname'))return;
   if(el.classList.contains('pname')){const m=MUSCLE_OF[exKey(el.value)];const sel=el.closest('.pexb').querySelector('.p-mus');if(m&&sel)sel.value=m;return}
@@ -1115,12 +1171,12 @@ function checkinSheet(){
     <div class="f"><span class="lab">Measurements, inches</span><div class="mgrid">${MEAS.map(fld).join('')}</div>
       <p class="hint" style="margin:0">Fill in any you want. Grey numbers are last time. Same time each week, first thing in the morning. Arms flexed at the peak; chest across the nipples; waist at the belly button, relaxed; thighs and calves at the widest point.</p></div>
     <label class="f"><span>Progress photo (optional)</span><input type="file" name="photo" accept="image/*"></label>
-    <p class="hint" style="margin:0">Same spot, light and pose each week. Photos stay on this phone.</p></div>`,
+    <p class="hint" style="margin:0">Same spot, light and pose each week. ${SYNC.user?'Photos back up to a private “Laps photos” folder in your Google Drive.':'Photos stay on this phone.'}</p></div>`,
     {label:'Save check-in',submit:async f=>{
       const vals={};for(const[key]of MEAS){const v=num(f.get('m_'+key));if(v!=null&&v>0)vals[key]=v}
       const file=f.get('photo'),k=f.get('date')||todayKey(),hasPhoto=file&&file.size>0;
       if(!Object.keys(vals).length&&!hasPhoto){toast('Add at least one measurement or a photo');return false}
-      if(hasPhoto){try{const b=await shrink(file);await photoPut(k,b);if(S.purl[k]){URL.revokeObjectURL(S.purl[k]);delete S.purl[k]}if(!S.photos.includes(k))S.photos.push(k);S.photos.sort()}
+      if(hasPhoto){try{const b=await shrink(file);await photoPut(k,b);if(S.purl[k]){URL.revokeObjectURL(S.purl[k]);delete S.purl[k]}if(!S.photos.includes(k))S.photos.push(k);S.photos.sort();photoUp(k,b);touch('meta/photos')}
         catch(e){toast('Couldn’t read that photo. Try another.');return false}}
       if(Object.keys(vals).length)editDay(k,dd=>{for(const[key,v]of Object.entries(vals)){if(key==='waist')dd.waist=v;else dd.meas[key]=v}});else render();
       toast(`Check-in saved${Object.keys(vals).length?` · ${plural(Object.keys(vals).length,'measurement')}`:''}`)}});
@@ -1191,6 +1247,17 @@ function nameSheet(title,ph,onSave){
     {label:'Add',submit:f=>{const name=(f.get('name')||'').trim();if(!name)return false;onSave(name);render();toast(`${name} added`)}});
 }
 function welcome(){
+  if(SYNC.cfg){
+    openSheet('Welcome to Laps',`<div class="form"><p style="margin:0">Your day on a schedule, plus training, food, sleep and progress.</p>
+      ${isIOS&&!standalone?'<div class="note"><b>Install it first.</b> In Safari tap Share, then Add to Home Screen. Open Laps from that icon, then sign in there.</div>':''}
+      <button type="button" class="btn acc" data-a="acct">Sign in</button>
+      <p class="hint" style="margin:0">Your username and password are on the Users tab of your Laps Google Sheet.</p>
+      <button type="button" class="link" data-a="startlocal" style="justify-self:center">Use without signing in</button></div>`);
+    return;
+  }
+  startSheet();
+}
+function startSheet(){
   const t=todayKey(),sug=t>=SUGGESTED_START&&diff(SUGGESTED_START,t)<30?SUGGESTED_START:t;
   openSheet('Welcome to Laps',`<div class="form"><p style="margin:0">Your day on a schedule, plus training, food, sleep and progress. Everything stays on this phone: no account, no subscription.</p>
     ${isIOS&&!standalone?'<div class="note"><b>Install it first.</b> In Safari tap Share, then Add to Home Screen. Open Laps from that icon, then set it up there.</div>':''}
@@ -1198,6 +1265,193 @@ function welcome(){
     <button type="button" class="btn soft" data-a="import">Restore from a backup instead</button></div>`,
     {label:'Start',submit:f=>{const v=f.get('start');if(isDate(v))S.set.start=v;saveSettings();saveLifts();render()}});
 }
+
+/* ---------- account + cloud sync ---------- */
+const SYNC={cfg:null,api:null,user:null,authKnown:false,state:'off',err:'',kicked:'',leaving:false,ts:{},dirty:new Set(),uid:null,ready:false,remoteT:{},remotePhotos:null,lastOk:null,timers:{},unsub:null};
+const keyId=k=>k.replace(/\//g,'~'),idKey=id=>id.replace(/~/g,'/');
+function syncValue(key){if(key.startsWith('days/'))return S.days[key.slice(5)]??null;return{'meta/settings':S.set,'meta/lifts':S.lifts,'meta/live':S.live,'meta/photos':S.photos}[key]??null}
+const syncKeys=()=>[...Object.keys(S.days).map(k=>'days/'+k),'meta/settings','meta/lifts','meta/photos',...(S.live?['meta/live']:[])];
+let syncMetaT;function saveSyncMeta(now){clearTimeout(syncMetaT);const w=()=>idb&&kvPut('__sync',{ts:SYNC.ts,dirty:[...SYNC.dirty],uid:SYNC.uid}).catch(()=>{});if(now)return w();syncMetaT=setTimeout(w,250)}
+function touch(key){if(!key||key.startsWith('__'))return;SYNC.ts[key]=Date.now();SYNC.dirty.add(key);saveSyncMeta();schedulePush(key)}
+function schedulePush(key){if(!SYNC.user||!SYNC.ready)return;clearTimeout(SYNC.timers[key]);SYNC.timers[key]=setTimeout(()=>pushKey(key),400);updSync()}
+async function pushKey(key){
+  const u=SYNC.user;if(!u||!SYNC.api)return;const t=SYNC.ts[key]||Date.now(),v=syncValue(key);updSync();
+  try{await SYNC.api.put(u.uid,keyId(key),{j:v==null?null:JSON.stringify(v),t});if(SYNC.ts[key]===t){SYNC.dirty.delete(key);saveSyncMeta()}SYNC.remoteT[key]=t;SYNC.lastOk=Date.now();SYNC.err='';updSync()}
+  catch(e){SYNC.err=syncErr(e);updSync()}
+}
+async function photoUp(k,blob){if(!SYNC.user||!SYNC.api)return;try{let d=await blobToDataURL(blob);if(d.length>950000)d=await blobToDataURL(await shrinkBlob(blob,900,.7));await SYNC.api.putPhoto(SYNC.user.uid,k,d,Date.now())}catch(e){SYNC.err=syncErr(e);updSync()}}
+function photoDown(k){if(SYNC.user&&SYNC.api)SYNC.api.delPhoto(SYNC.user.uid,k).catch(()=>{})}
+async function photoFetch(k){if(!SYNC.user||!SYNC.api)return null;try{const d=await SYNC.api.getPhoto(SYNC.user.uid,k);if(!d)return null;const b=dataURLToBlob(d);await photoPut(k,b);return b}catch(e){return null}}
+function shrinkBlob(blob,max,q){return new Promise((res,rej)=>{const u=URL.createObjectURL(blob),im=new Image();im.onload=()=>{const sc=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(new Error('encode')),'image/jpeg',q)};im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('load'))};im.src=u})}
+async function applyRemote(key,v){
+  if(key.startsWith('days/')){const k=key.slice(5);if(v==null){delete S.days[k];await run('kv','readwrite',s=>s.delete(key)).catch(()=>{})}else{S.days[k]=normDay(v);await kvPut(key,S.days[k])}}
+  else if(key==='meta/settings'){if(v){S.set=normSettings(v);applyAccent();await kvPut(key,S.set)}}
+  else if(key==='meta/lifts'){if(v){S.lifts=normLifts(v);await kvPut(key,S.lifts)}}
+  else if(key==='meta/live'){if(v&&Array.isArray(v.items)){S.live=v;await kvPut(key,v)}else{S.live=null;S.liveOpen=false;await run('kv','readwrite',s=>s.delete(key)).catch(()=>{})}}
+  else if(key==='meta/photos'){const list=(Array.isArray(v)?v:[]).filter(isDate).sort();for(const k of S.photos)if(!list.includes(k)){await photoDel(k).catch(()=>{});if(S.purl[k]){URL.revokeObjectURL(S.purl[k]);delete S.purl[k]}}S.photos=list}
+}
+let applying=Promise.resolve();
+function onRemote(changes){applying=applying.then(async()=>{let any=false;
+  for(const c of changes){const key=idKey(c.id),t=+c.t||0;SYNC.remoteT[key]=t;let v=null;try{v=c.j==null?null:JSON.parse(c.j)}catch(e){continue}
+    if(key==='meta/photos')SYNC.remotePhotos=Array.isArray(v)?v:[];
+    if(t>(SYNC.ts[key]||0)){SYNC.ts[key]=t;SYNC.dirty.delete(key);await applyRemote(key,v);any=true}}
+  if(any){saveSyncMeta();render()}SYNC.lastOk=Date.now();SYNC.err='';updSync()});return applying}
+function onReady(all){applying=applying.then(async()=>{
+  for(const c of all)SYNC.remoteT[idKey(c.id)]=+c.t||0;
+  if(SYNC.ready)return;SYNC.ready=true;
+  for(const key of new Set([...syncKeys(),...SYNC.dirty])){const rt=SYNC.remoteT[key],lt=SYNC.ts[key]||0;
+    if(rt==null){if(syncValue(key)==null&&!SYNC.dirty.has(key))continue;if(!lt)SYNC.ts[key]=Date.now();SYNC.dirty.add(key)}else if(lt>rt)SYNC.dirty.add(key);else SYNC.dirty.delete(key)}
+  saveSyncMeta();
+  const rp=new Set(SYNC.remotePhotos||[]);for(const k of S.photos)if(!rp.has(k)){const b=await photoGet(k).catch(()=>null);if(b)await photoUp(k,b)}
+  for(const key of SYNC.dirty)pushKey(key);
+  SYNC.lastOk=Date.now();SYNC.err='';updSync();render();
+  if(S.firstSync){S.firstSync=false;closeSheet();if(!Object.keys(S.days).length&&!SYNC.remoteT['meta/settings'])startSheet();else toast('Synced with your Laps sheet')}
+})}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const UNREACH='Can’t reach your Laps sheet right now. It will keep trying.';
+function syncErr(e){const c=(e&&e.code)||'';if(c==='network')return navigator.onLine?UNREACH:'';if(c==='auth')return'';return((e&&e.message)||'Sync error').slice(0,180)}
+function syncStatus(){
+  if(!SYNC.cfg)return{dot:'',txt:'Not connected to a Laps sheet yet.'};
+  if(!SYNC.user)return{dot:SYNC.kicked?'err':'',txt:SYNC.kicked||'Not signed in. Your data is only on this device.'};
+  if(SYNC.err)return{dot:'err',txt:SYNC.err};
+  if(!navigator.onLine)return{dot:'',txt:SYNC.dirty.size?`Offline. ${plural(SYNC.dirty.size,'change')} will sync when you’re back online.`:'Offline. Everything synced before you lost signal.'};
+  if(!SYNC.ready||SYNC.dirty.size)return{dot:'busy',txt:SYNC.ready?`Syncing ${plural(SYNC.dirty.size,'change')}…`:'Connecting…'};
+  const ago=SYNC.lastOk?Math.round((Date.now()-SYNC.lastOk)/60000):null;
+  return{dot:'ok',txt:`All synced${ago==null?'':ago<1?' just now':` ${plural(ago,'minute')} ago`}.`};
+}
+function updSync(){const el=$('#syncline');if(!el)return;const s=syncStatus();el.innerHTML=`<span class="sync-dot ${s.dot}"></span><span>${esc(s.txt)}</span>`}
+addEventListener('online',updSync);addEventListener('offline',updSync);
+function bindUser(u){
+  if(SYNC.unsub){SYNC.unsub();SYNC.unsub=null}
+  SYNC.user=u;SYNC.ready=false;SYNC.remoteT={};SYNC.remotePhotos=null;SYNC.err='';
+  if(!u){updSync();return}
+  if(SYNC.uid!==u.uid){for(const k of Object.keys(SYNC.ts))SYNC.ts[k]=0;SYNC.uid=u.uid;saveSyncMeta(true)}
+  SYNC.unsub=SYNC.api.watch(u.uid,onRemote,onReady,e=>{SYNC.err=syncErr(e);updSync();if(S.firstSync){const el=liveEl();if(el)el.textContent=SYNC.err||'No connection. It will keep trying.'}});
+  updSync();
+}
+
+/* Talks to the Apps Script web app in your Laps Google Sheet (same setup as Loves Stockroom). */
+function sheetsCloud(url){
+  const LS='laps-auth',E=(code,msg)=>Object.assign(new Error(msg||code),{code}),cbs=[];let sess=null,lastMsg='',W=null;
+  try{sess=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+  const setSess=v=>{sess=v;try{v?localStorage.setItem(LS,JSON.stringify(v)):localStorage.removeItem(LS)}catch(e){}cbs.forEach(cb=>cb(v?v.user:null))};
+  async function call(op,body={},ms=30000){
+    if(!navigator.onLine)throw E('network');
+    const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),ms);let r,j;
+    try{r=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,op,token:sess?sess.token:undefined}),signal:ctl.signal});j=await r.json()}
+    catch(e){throw e instanceof SyntaxError?E('server','Your Laps sheet sent back something unexpected. Check the web app is deployed with access set to Anyone.'):E('network')}
+    finally{clearTimeout(tm)}
+    if(!j||!j.ok){const code=(j&&j.error)||'server';if(code==='auth'&&op!=='login'&&sess){lastMsg=(j&&j.msg)||'';setSess(null)}throw E(code,j&&j.msg)}
+    return j;
+  }
+  const Q=new Map();let qT=null,sending=false,back=0;
+  const kick=ms=>{clearTimeout(qT);qT=setTimeout(send,ms)};
+  async function send(){
+    if(sending||!Q.size)return;
+    if(!sess){const e=E('auth');for(const b of Q.values())b.rs.forEach(x=>x.rej(e));Q.clear();return}
+    sending=true;const batch=[...Q.values()];Q.clear();
+    try{const j=await call('push',{docs:batch.map(b=>b.doc)},90000);back=0;
+      const newer=(j.res||[]).filter(r=>!r.ok&&r.cur).map(r=>r.cur);if(newer.length&&W)W.onChange(newer);
+      batch.forEach(b=>b.rs.forEach(x=>x.res()))}
+    catch(e){
+      if(e.code==='auth'||e.code==='bad')batch.forEach(b=>b.rs.forEach(x=>x.rej(e)));
+      else{for(const b of batch){const n=Q.get(b.doc.id);if(n)n.rs.unshift(...b.rs);else Q.set(b.doc.id,b)}back=Math.min(60000,back?back*2:2000);if(W)W.onError(e);kick(back)}}
+    finally{sending=false;if(Q.size&&!back)kick(30)}
+  }
+  addEventListener('online',()=>{back=0;if(Q.size)kick(0)});
+  return{
+    onAuth:cb=>{cbs.push(cb);setTimeout(()=>cb(sess?sess.user:null),0)},
+    lastMsg:()=>lastMsg,
+    async signIn(u,p){const j=await call('login',{u:String(u||'').trim().toLowerCase(),p});lastMsg='';setSess({token:j.token,user:{uid:j.user.username,email:j.user.username,name:j.user.name||j.user.username}})},
+    async signOut(){clearTimeout(qT);Q.clear();setSess(null)},
+    watch(uid,onChange,onReady,onError){
+      let since=0,first=true,timer=null,stop=false,busy=false,lastAt=0;
+      const poll=async()=>{if(stop||busy||Date.now()-lastAt<2500)return;busy=true;clearTimeout(timer);lastAt=Date.now();
+        try{const j=await call('pull',{since});since=Math.max(0,j.now-15000);if(j.docs.length||first)onChange(j.docs);if(first){first=false;onReady(j.docs)}}
+        catch(e){if(e.code!=='auth')onError(e)}
+        finally{busy=false;if(!stop)timer=setTimeout(poll,document.hidden?180000:20000)}};
+      const wake=()=>{if(!document.hidden)poll()};
+      document.addEventListener('visibilitychange',wake);addEventListener('online',wake);addEventListener('focus',wake);
+      W={onChange,onError};poll();
+      return()=>{stop=true;clearTimeout(timer);document.removeEventListener('visibilitychange',wake);removeEventListener('online',wake);removeEventListener('focus',wake);W=null};
+    },
+    put:(uid,id,data)=>new Promise((res,rej)=>{const key=idKey(id),cur=Q.get(key);Q.set(key,{doc:{id:key,j:data.j,t:data.t},rs:[...(cur?cur.rs:[]),{res,rej}]});kick(back||300)}),
+    putPhoto:(uid,k,d)=>call('photo_put',{k,d},90000).then(()=>{}),
+    getPhoto:(uid,k)=>call('photo_get',{k},60000).then(j=>j.d||null),
+    delPhoto:(uid,k)=>call('photo_del',{k}).then(()=>{}),
+    async flush(){kick(0);const t0=Date.now();while((Q.size||sending)&&Date.now()-t0<8000)await sleep(100)}
+  };
+}
+const pickUrl=t=>{const m=String(t||'').match(/https:\/\/script\.google(?:usercontent)?\.com\/[^\s"'<>]+/);return m?m[0].replace(/[).,;]+$/,''):null};
+async function loadCloudConfig(){
+  if(window.__cloudConfig)return window.__cloudConfig;
+  let url=null;
+  try{const r=await fetch('sync-url.txt',{cache:'no-cache'});if(r.ok)url=pickUrl(await r.text())}catch(e){}
+  if(!url)try{url=pickUrl(localStorage.getItem('laps-sync-url'))}catch(e){}
+  return url?{url}:null;
+}
+async function initCloud(){
+  if(SYNC.api)return;const cfg=await loadCloudConfig();if(!cfg)return;
+  SYNC.api=sheetsCloud(cfg.url);SYNC.cfg=cfg;
+  await new Promise(res=>{let done=false;const fin=()=>{if(!done){done=true;res()}};
+    SYNC.api.onAuth(u=>{SYNC.authKnown=true;
+      if(!u&&SYNC.user&&!SYNC.leaving){SYNC.kicked=SYNC.api.lastMsg()||'You were signed out. Sign in again to keep syncing.';toast('Signed out of sync. Sign in again in You.')}
+      if(u)SYNC.kicked='';bindUser(u);render();fin()});setTimeout(fin,4000)});
+}
+const AUTH_MSG={'auth/invalid-credential':'Wrong username or password.','auth/no-password':'','auth/locked':'Too many tries. Wait 10 minutes and try again.','auth/inactive':'That account is turned off on the Users tab.','setup':'',
+  network:'Couldn’t reach your Laps sheet. If you have signal, check the web app’s access is set to Anyone.'};
+function accountSheet(){
+  if(!SYNC.api){connectSheet();return}
+  openSheet('Sign in',`<div class="form">
+    <p class="hint" style="margin:0">Use the username and password from the Users tab of your Laps Google Sheet.</p>
+    <label class="f"><span>Username</span><input name="user" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required placeholder="ayden.love"></label>
+    <label class="f"><span>Password</span><input name="pw" type="password" autocomplete="current-password" required></label>
+    <p class="err-t" data-live></p>
+    <p style="margin:0"><button type="button" class="link" data-a="pwreset">Forgot password?</button></p></div>`,
+    {label:'Sign in',submit:async f=>{const u=(f.get('user')||'').trim(),pw=f.get('pw')||'',el=liveEl();el.textContent='Signing in…';
+      try{S.firstSync=true;SYNC.leaving=false;await SYNC.api.signIn(u,pw);el.textContent='Syncing your data…';return false}
+      catch(e){S.firstSync=false;el.textContent=AUTH_MSG[e&&e.code]||((e&&e.message)||'Something went wrong.');return false}}});
+}
+function pwReset(){const msg=liveEl();if(msg)msg.textContent='Open your Laps Google Sheet, go to the Users tab, and type a new password in “Set password”. Then sign in here with it.'}
+function connectSheet(){
+  openSheet('Connect your Laps sheet',`<div class="form">
+    <p class="hint" style="margin:0">Paste the Web app link from your Laps sheet’s Apps Script (Deploy &gt; Manage deployments). It ends in <b>/exec</b>. To skip this on every device, put the link in a file named <b>sync-url.txt</b> next to index.html on GitHub.</p>
+    <label class="f"><span>Web app link</span><input name="url" type="url" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" required placeholder="https://script.google.com/macros/s/…/exec"></label>
+    <p class="err-t" data-live></p></div>`,
+    {label:'Connect',submit:async f=>{const el=liveEl(),u=pickUrl(f.get('url'));if(!u){el.textContent='That isn’t an Apps Script web app link. It starts with https://script.google.com/';return false}
+      el.textContent='Checking the link…';
+      try{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:'{"op":"ping"}'});const j=await r.json();if(!j||j.app!=='laps')throw 0}
+      catch(e){el.textContent='Couldn’t reach Laps at that link. Check it ends in /exec and the deployment’s access is set to Anyone.';return false}
+      try{localStorage.setItem('laps-sync-url',u)}catch(e){}SYNC.api=null;await initCloud();render();accountSheet();return false}});
+}
+function signOutSheet(){
+  const n=SYNC.dirty.size;
+  openSheet('Sign out',`<p style="margin:0 0 8px">Your data stays safe in your Laps sheet. Signing out removes it from this device until you sign in again.</p>
+    ${n?`<div class="note"><b>${plural(n,'change')} haven’t synced yet.</b> Get a signal and wait for “All synced” first, or you’ll lose them.</div>`:''}
+    <button type="button" class="btn soft danger mt" data-a="signoutgo">${n?'Sign out anyway':'Sign out'}</button>`);
+}
+async function signOutNow(){
+  closeSheet();toast('Signing out…');try{await Promise.race([SYNC.api.flush(),sleep(8000)])}catch(e){}
+  if(SYNC.unsub){SYNC.unsub();SYNC.unsub=null}SYNC.leaving=true;SYNC.user=null;try{await SYNC.api.signOut()}catch(e){}
+  await run('kv','readwrite',s=>s.clear());await run('photos','readwrite',s=>s.clear());
+  Object.values(S.purl).forEach(u=>URL.revokeObjectURL(u));
+  Object.assign(S,{set:DEFAULTS(),lifts:LIFTS(),days:{},photos:[],purl:{},live:null,liveOpen:false,tab:'today'});
+  SYNC.ts={};SYNC.dirty=new Set();SYNC.uid=null;SYNC.user=null;SYNC.ready=false;SYNC.kicked='';await saveSyncMeta(true);
+  applyAccent();render();welcome();
+}
+function accountBlock(){
+  if(!SYNC.cfg)return`<section class="band"><h2>Account & sync</h2><div class="acct"><p style="margin:0 0 4px">Connect your Laps Google Sheet to sign in. Then everything backs up to the sheet and follows you to any phone or computer.</p>
+    <button type="button" class="btn acc mt" data-a="connect">Connect your Laps sheet</button></div></section>`;
+  const s=syncStatus();
+  if(!SYNC.user)return`<section class="band"><h2>Account & sync</h2><div class="acct"><p style="margin:0 0 4px">Sign in to back up to your Laps sheet and use Laps on any phone or computer.</p>
+    <p class="sync-line" id="syncline"><span class="sync-dot ${s.dot}"></span><span>${esc(s.txt)}</span></p>
+    <button type="button" class="btn acc" data-a="acct">Sign in</button></div></section>`;
+  return`<section class="band"><h2>Account & sync</h2><div class="acct"><span class="lab" style="color:var(--mute)">Signed in as</span><div class="who">${esc(SYNC.user.name||SYNC.user.email||'')}</div>
+    ${SYNC.user.name&&SYNC.user.name!==SYNC.user.email?`<p class="hint" style="margin:0">${esc(SYNC.user.email)}</p>`:''}
+    <p class="sync-line" id="syncline"><span class="sync-dot ${s.dot}"></span><span>${esc(s.txt)}</span></p>
+    <button type="button" class="btn soft" data-a="signout">Sign out</button></div></section>`;
+}
+setInterval(()=>{if(S.tab==='you')updSync()},30000);
 
 /* ---------- backup, restore, reminders ---------- */
 const blobToDataURL=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
@@ -1230,6 +1484,7 @@ async function restore(data){
   Object.values(S.purl).forEach(u=>URL.revokeObjectURL(u));S.purl={};S.photos=[];
   for(const[k,u]of Object.entries(data.photos||{})){if(!isDate(k))continue;try{await photoPut(k,dataURLToBlob(u));S.photos.push(k)}catch(e){}}
   S.photos.sort();S.blockIdx=null;applyAccent();render();
+  if(SYNC.user){const keep=new Set(syncKeys());for(const key of Object.keys(SYNC.remoteT))if(!keep.has(key)&&key.startsWith('days/'))touch(key);for(const key of keep)touch(key);for(const k of S.photos){const b=await photoGet(k);if(b)photoUp(k,b)}}
 }
 $('#imp').addEventListener('change',async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;let data;
@@ -1273,7 +1528,7 @@ function beep(){
 }
 async function wake(){try{if('wakeLock' in navigator&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}}catch(e){}}
 function unwake(){try{if(wl)wl.release()}catch(e){}wl=null}
-function saveLive(){if(!idb)return;if(S.live)put('meta/live',S.live);else run('kv','readwrite',s=>s.delete('meta/live')).catch(()=>{})}
+function saveLive(){if(!idb)return;if(S.live)put('meta/live',S.live);else{run('kv','readwrite',s=>s.delete('meta/live')).catch(()=>{});touch('meta/live')}}
 const liveSetsDone=L=>L.items.reduce((t,x)=>t+x.done.filter(Boolean).length,0);
 const liveSetsAll=L=>L.items.reduce((t,x)=>t+Math.max(x.sets,x.done.length),0);
 const openIdx=x=>{for(let j=0;j<Math.max(x.sets,x.done.length);j++)if(!x.done[j])return j;return -1};
@@ -1294,7 +1549,7 @@ function mkItem(e,idx){const last=idx.get(exKey(e.name)),muscle=e.muscle||guessM
   return{name:e.name,muscle,sets,reps:e.reps||'',rest:+e.rest||180,done:[],draft:[],last:last?last.sessions[last.sessions.length-1].sets:[],sug:suggest(e.name,e.reps,muscle,sets)}}
 function startLive(wd){
   const p=wd!=null&&wd!==''?planDay(+wd):null,idx=exIndex();
-  S.live={k:todayKey(),name:p?p.name:'Workout',startedAt:Date.now(),lastAt:Date.now(),items:p?p.ex.map(e=>mkItem(e,idx)):[],i:0,restEnd:null,restTotal:180};
+  S.live={k:todayKey(),wd:p?+wd:null,name:p?p.name:'Workout',startedAt:Date.now(),lastAt:Date.now(),items:p?p.ex.map(e=>mkItem(e,idx)):[],i:0,restEnd:null,restTotal:180};
   S.liveOpen=true;saveLive();unlockAudio();wake();closeSheet();render();scrollTo(0,0);
   if(!p)liveAddSheet();
 }
@@ -1318,7 +1573,7 @@ function vLive(){
     for(let s=0;s<n;s++){const d=x.done[s],v=d?null:prefill(x,s),cur=s===j;
       rows+=`<div class="lv-row${cur?' cur':''}"><span class="sn">${s+1}</span>${d?`<button type="button" class="lv-done" data-a="liveedit" data-x="${s}" aria-label="Edit set ${s+1}">${fmtSet(d)}<span class="tick">${ICON.check}</span></button>`
         :`<div class="unit"><input class="lw" data-s="${s}" type="number" inputmode="decimal" step="0.5" min="0" value="${v.w??''}" placeholder="—" aria-label="Set ${s+1} weight"><em>lb</em></div><span class="times">×</span><div class="unit"><input class="lr" data-s="${s}" type="number" inputmode="numeric" min="0" value="${v.r??''}" placeholder="—" aria-label="Set ${s+1} reps"><em>reps</em></div>`}</div>`}
-    body=`<section class="band"><div class="lv-card"><p class="lbl">${esc(x.muscle)} · exercise ${L.i+1} of ${L.items.length}</p><h2 class="lv-name">${esc(x.name)}</h2>
+    body=`<section class="band"><div class="lv-card"><div class="lv-head"><p class="lbl">${esc(x.muscle)} · exercise ${L.i+1} of ${L.items.length}</p><div class="lv-tools"><button type="button" class="pill" data-a="liveswap">${ICON.swap}Swap</button><button type="button" class="pill icon" data-a="livemenu" aria-label="More options for ${esc(x.name)}">${ICON.dots}</button></div></div><h2 class="lv-name">${esc(x.name)}</h2>
       <p class="hint" style="margin:0">${x.sets} sets × ${esc(x.reps||'—')} reps · rest ${mmss(x.rest)}</p>${x.last.length?`<p class="hint" style="margin:2px 0 0">Last time: ${x.last.map(fmtSet).join(', ')}</p>`:''}
       ${x.sug?`<p class="sug">${x.sug.kind==='up'?'Go up today: ':x.sug.kind==='deload'?'Lighter today: ':'Today: '}<b>${x.sug.w?x.sug.w+' lb × ':''}${x.sug.r}</b> · ${esc(x.sug.why)}</p>`:''}
       <div class="lv-sets">${rows}</div><button type="button" class="link" data-a="plates" style="margin:-6px 0 10px">Plate calculator</button>
@@ -1344,28 +1599,65 @@ function liveDone(){
   saveLive();render();scrollTo(0,0);
 }
 function liveAddSheet(){
-  openSheet('Add exercise',`<div class="form"><label class="f"><span>Machine or exercise</span><input name="name" list="exlist" required maxlength="50" autocomplete="off" placeholder="Chest press"></label>
-    <div class="pg3"><label class="f"><span>Sets</span><input name="sets" type="number" inputmode="numeric" min="1" max="10" value="3"></label><label class="f"><span>Reps</span><input name="reps" value="8–12" maxlength="10"></label>
-    <label class="f"><span>Rest</span><select name="rest">${[60,90,120,150,180,240,300].map(s=>`<option value="${s}"${s===180?' selected':''}>${mmss(s)}</option>`).join('')}</select></label></div></div>
-    <datalist id="exlist">${knownExercises().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>`,
-    {label:'Add',submit:f=>{const name=(f.get('name')||'').trim();if(!name)return false;const L=S.live;
-      L.items.push(mkItem({name,sets:num(f.get('sets'))||3,reps:f.get('reps'),rest:num(f.get('rest'))||180},exIndex()));L.i=L.items.length-1;L.restEnd=null;saveLive();render()}});
+  exPicker({title:'Add exercise',back:S.live&&S.live.items.length?()=>closeSheet():null,onPick:n=>{const L=S.live;if(!L)return;const df=exDefaults(n.name);
+    L.items.push(mkItem({name:n.name,muscle:n.muscle,...df},exIndex()));L.i=L.items.length-1;L.restEnd=null;L.edited=true;saveLive();closeSheet();render();scrollTo(0,0);toast(`Added ${n.name}`)}});
+}
+function liveMenu(){
+  const L=S.live,i=L.i,x=L.items[i];if(!x)return;const n=L.items.length,dn=x.done.filter(Boolean).length;
+  openSheet(x.name,`<div class="form"><p class="hint" style="margin:0">Exercise ${i+1} of ${n} today${dn?` · ${plural(dn,'set')} done`:''}</p>
+    <div class="pg3"><label class="f"><span>Sets</span><input name="sets" type="number" inputmode="numeric" min="${Math.max(1,dn)}" max="12" value="${Math.max(x.sets,dn)}"></label><label class="f"><span>Reps</span><input name="reps" value="${esc(x.reps||'')}" maxlength="10"></label><label class="f"><span>Rest</span>${restSel('rest',x.rest)}</label></div>
+    <button class="btn acc" type="submit">Save for today</button>
+    <button type="button" class="btn soft" data-a="liveswap">${ICON.swap} Swap for another exercise</button>
+    <div class="btns"><button type="button" class="btn soft" data-a="livemove" data-x="-1"${i===0?' disabled':''}>${ICON.up} Earlier</button><button type="button" class="btn soft" data-a="livemove" data-x="1"${i===n-1?' disabled':''}>${ICON.down} Later</button></div>
+    <button type="button" class="btn soft" data-a="livelast"${i===n-1?' disabled':''}>Machine taken? Do it last</button>
+    <button type="button" class="btn soft danger" data-a="liverm">${ICON.trash} Remove from today${dn?` (drops ${plural(dn,'set')})`:''}</button>
+    <p class="hint" style="margin:0">These change today’s workout only. When you finish, you can copy the changes to your plan.</p></div>`,
+    {btn:false,submit:f=>{x.sets=Math.max(dn,Math.min(12,Math.max(1,Math.round(num(f.get('sets'))||x.sets))));x.reps=(f.get('reps')||'').trim();x.rest=num(f.get('rest'))||x.rest;L.edited=true;saveLive();render();toast(`${x.name} updated`)}});
+}
+function liveSwap(){
+  const L=S.live,x=L&&L.items[L.i];if(!x)return;
+  exPicker({title:`Swap ${x.name}`,mus:x.muscle,cur:x.name,back:()=>closeSheet(),onPick:n=>{
+    const prev=structuredClone(S.live),i=L.i,dn=x.done.filter(Boolean).length,
+      it=mkItem({name:n.name,muscle:n.muscle,sets:Math.max(1,Math.max(x.sets,dn)-dn),reps:x.reps,rest:x.rest},exIndex());
+    if(dn){x.sets=dn;x.draft=[];L.items.splice(i+1,0,it);L.i=i+1}else L.items[i]=it;
+    L.restEnd=null;L.edited=true;saveLive();closeSheet();render();scrollTo(0,0);
+    toast(dn?`Swapped to ${n.name}. Your ${plural(dn,'set')} of ${x.name} ${dn===1?'is':'are'} kept.`:`Swapped to ${n.name}`,()=>{S.live=prev;saveLive();render()})}});
+}
+function liveRemove(){
+  const L=S.live,x=L&&L.items[L.i];if(!x)return;const prev=structuredClone(L);
+  L.items.splice(L.i,1);const nx=L.items.findIndex((it,j)=>j>=L.i&&openIdx(it)>=0);L.i=nx>=0?nx:Math.max(0,Math.min(L.i,L.items.length-1));
+  L.restEnd=null;L.edited=true;saveLive();closeSheet();render();scrollTo(0,0);toast(`Removed ${x.name}`,()=>{S.live=prev;saveLive();render()});
+}
+function liveMove(dir){
+  const L=S.live,i=L.i,j=i+dir;if(j<0||j>=L.items.length)return;[L.items[i],L.items[j]]=[L.items[j],L.items[i]];L.i=j;L.edited=true;saveLive();closeSheet();render();
+}
+function liveLast(){
+  const L=S.live,i=L.i;if(i>=L.items.length-1)return;const[it]=L.items.splice(i,1);L.items.push(it);
+  const nx=L.items.findIndex(x=>x!==it&&openIdx(x)>=0);L.i=nx>=0?nx:L.items.length-1;L.restEnd=null;L.edited=true;saveLive();closeSheet();render();scrollTo(0,0);toast(`${it.name} moved to the end`);
+}
+function livePlanOffer(L){
+  const tw=parse(L.k).getDay(),target=L.wd!=null?L.wd:(planDay(tw)?null:tw);if(target==null||!L.items.length)return null;
+  const cur=(S.set.plan.days[target]&&S.set.plan.days[target].ex)||[],sig=a=>a.map(e=>`${exKey(e.name)}/${+e.sets}/${e.reps||''}/${+e.rest||180}`).join('|');
+  if(L.wd!=null&&(!L.edited||sig(cur)===sig(L.items)))return null;
+  return{target,label:L.wd!=null?`Update ${DAYF[target]}’s plan to match today`:`Save this as your ${DAYF[target]} workout`};
 }
 function liveFinishSheet(){
-  const L=S.live,dn=liveSetsDone(L),left=liveSetsAll(L)-dn,vol=L.items.reduce((t,x)=>t+x.done.filter(Boolean).reduce((a,s)=>a+(s.w>0?s.w*s.r:0),0),0);
+  const L=S.live,offer=livePlanOffer(L),dn=liveSetsDone(L),left=liveSetsAll(L)-dn,vol=L.items.reduce((t,x)=>t+x.done.filter(Boolean).reduce((a,s)=>a+(s.w>0?s.w*s.r:0),0),0);
   openSheet('Finish workout',`<p style="margin:0 0 6px"><b>${plural(dn,'set')}</b> · <b>${fmtN(vol)}</b> lb moved · ${Math.max(1,Math.round((L.lastAt-L.startedAt)/60000))} min</p>
     ${left>0&&dn?`<p class="hint" style="margin:0 0 6px">${plural(left,'planned set')} not done. Only finished sets are saved.</p>`:''}
+    ${dn&&offer?`<label class="check mt"><input type="checkbox" name="toplan"> ${offer.label}</label>`:''}
     ${dn?'<button class="btn acc mt" type="submit">Save workout</button>':'<p class="hint">No sets logged yet.</p>'}
     <button type="button" class="btn soft mt" data-a="close">Keep going</button>
-    <button type="button" class="btn soft danger mt" data-a="livediscard">Discard workout</button>`,{submit:()=>liveSave(),btn:false});
+    <button type="button" class="btn soft danger mt" data-a="livediscard">Discard workout</button>`,{submit:f=>liveSave(f),btn:false});
 }
-function liveSave(){
-  const L=S.live,ex=L.items.map(x=>({name:x.name,muscle:x.muscle,sets:x.done.filter(Boolean)})).filter(x=>x.sets.length);if(!ex.length)return false;
+function liveSave(f){
+  const L=S.live,offer=f&&f.get('toplan')?livePlanOffer(L):null,ex=L.items.map(x=>({name:x.name,muscle:x.muscle,sets:x.done.filter(Boolean)})).filter(x=>x.sets.length);if(!ex.length)return false;
   const prior=exIndex(),prs=[];
   for(const x of ex){const p=prior.get(exKey(x.name)),b=bestSet(x.sets);if(p&&b&&b.w>0){const pb=bestSet(p.sessions.flatMap(s=>s.sets));if(pb&&pb.w>0&&e1rm(b.w,b.r)>e1rm(pb.w,pb.r))prs.push(`${x.name} ${fmtSet(b)}`)}}
   const entry={id:uid(),type:L.name,min:Math.max(1,Math.round((L.lastAt-L.startedAt)/60000)),notes:'',ex};
+  if(offer){const old=S.set.plan.days[offer.target];S.set.plan.days[offer.target]={name:old?old.name:L.name,ex:L.items.map(x=>({id:uid(),name:x.name,muscle:x.muscle,sets:Math.max(1,x.sets),reps:x.reps||'8–12',rest:+x.rest||180}))};saveSettings()}
   S.live=null;S.liveOpen=false;saveLive();unwake();editDay(L.k,d=>d.workouts.push(entry));S.tab='train';render();scrollTo(0,0);
-  toast(prs.length?`Saved · ${plural(prs.length,'PR')}: ${prs[0]}`:`Workout saved · ${plural(woSets(entry),'set')}`);
+  toast(prs.length?`Saved · ${plural(prs.length,'PR')}: ${prs[0]}`:`Workout saved · ${plural(woSets(entry),'set')}${offer?` · ${DAYF[offer.target]} plan updated`:''}`);
 }
 function liveTick(){
   const L=S.live;if(!L||!S.liveOpen||document.hidden)return;const now=Date.now(),el=$('#lv-el');if(el)el.textContent=mmss((now-L.startedAt)/1000);
@@ -1380,24 +1672,80 @@ function pickWorkout(){
     ${row({a:'startwo',x:'',t:'Empty workout',s:'Add exercises as you go',bare:true,v:'›'})}</div>`);
 }
 
-/* ---------- plan editor ---------- */
-const pexBlock=e=>`<div class="exb pexb"><div class="exh"><input class="exname pname" list="exlist" value="${esc(e.name||'')}" placeholder="Machine or exercise" maxlength="50" autocomplete="off" aria-label="Exercise"><button type="button" class="x" data-a="pup" aria-label="Move up">${sv('<path d="M12 19V5M6 11l6-6 6 6"/>')}</button><button type="button" class="x" data-a="pdel" aria-label="Remove exercise">${ICON.x}</button></div>
-  <div class="pg3"><label class="f"><span>Sets</span><input class="p-sets" type="number" inputmode="numeric" min="1" max="10" value="${e.sets||3}"></label><label class="f"><span>Reps</span><input class="p-reps" value="${esc(e.reps||'8–12')}" maxlength="10"></label>
-  <label class="f"><span>Rest</span><select class="p-rest">${[60,90,120,150,180,240,300].map(s=>`<option value="${s}"${(+e.rest||180)===s?' selected':''}>${mmss(s)}</option>`).join('')}</select></label></div>
-  <label class="f" style="margin-top:8px"><span>Muscle</span><select class="p-mus">${MUSCLES.map(m=>`<option${(e.muscle||guessMuscle(e.name||''))===m?' selected':''}>${m}</option>`).join('')}</select></label></div>`;
-let planEdit=null;
-function planDaySheet(wd){
-  wd=+wd;planEdit=wd;const pd=planDay(wd),others=WEEK_ORDER.filter(i=>i!==wd&&planDay(i));
+/* ---------- exercise picker ---------- */
+const PK={q:'',mus:'All',cur:'',onPick:null,back:null,res:[]};
+function exCatalog(){
+  const idx=exIndex(),seen=new Map();
+  const mine=[...idx.values()].sort((a,b)=>a.sessions[a.sessions.length-1].k<b.sessions[b.sessions.length-1].k?1:-1);
+  for(const e of mine){const l=e.sessions[e.sessions.length-1];seen.set(exKey(e.name),{name:e.name,muscle:guessMuscle(e.name),eq:EQUIP_OF[exKey(e.name)]||'',last:l.sets,mine:true})}
+  for(const p of Object.values(S.set.plan.days))if(p)for(const e of p.ex)if(!seen.has(exKey(e.name)))seen.set(exKey(e.name),{name:e.name,muscle:e.muscle||guessMuscle(e.name),eq:EQUIP_OF[exKey(e.name)]||'',mine:true});
+  for(const[n,m,q]of EXLIB)if(!seen.has(exKey(n)))seen.set(exKey(n),{name:n,muscle:m,eq:q});
+  return[...seen.values()];
+}
+function exPicker({title,mus,cur,onPick,back}){
+  Object.assign(PK,{q:'',mus:mus&&MUSCLES.includes(mus)&&mus!=='Other'?mus:'All',cur:cur||'',onPick,back:back||null});
+  openSheet(title,`<div class="form"><input type="search" id="xsearch" placeholder="Search exercises or machines" autocomplete="off" aria-label="Search exercises">
+    <div class="xmus" id="xmus" role="group" aria-label="Muscle"></div><div id="xres" class="list"></div>
+    ${back?'<button type="button" class="btn soft" data-a="xback">Back</button>':''}</div>`,{btn:false});
+  pickerRender();
+}
+function pickerRender(){
+  const q=PK.q.trim().toLowerCase(),all=exCatalog().filter(e=>exKey(e.name)!==exKey(PK.cur));
+  const mm=$('#xmus');if(mm)mm.innerHTML=['All',...MUSCLES.filter(m=>m!=='Other')].map(m=>`<button type="button" class="chip${PK.mus===m?' on':''}" data-a="xmus" data-x="${m}" aria-pressed="${PK.mus===m}">${m}</button>`).join('');
+  let r=all.filter(e=>(PK.mus==='All'||e.muscle===PK.mus)&&(!q||e.name.toLowerCase().includes(q)||(e.eq||'').toLowerCase().includes(q)));
+  if(q)r=[...r.filter(e=>e.name.toLowerCase().startsWith(q)),...r.filter(e=>!e.name.toLowerCase().startsWith(q))];
+  PK.res=r.slice(0,80);
+  const exact=q&&exCatalog().some(e=>e.name.toLowerCase()===q),el=$('#xres');if(!el)return;
+  el.innerHTML=PK.res.map((e,i)=>`<button type="button" class="row xrow" data-a="xpick" data-x="${i}"><span class="main"><span class="t">${esc(e.name)}</span><span class="s">${esc([e.muscle,e.eq].filter(Boolean).join(' · '))}${e.last?` · last ${esc(e.last.slice(0,3).map(fmtSet).join(', '))}`:''}</span></span>${e.mine?'<span class="tag soft">Yours</span>':''}</button>`).join('')
+    +(q&&!exact?`<button type="button" class="row xrow" data-a="xnew"><span class="main"><span class="t">Add “${esc(PK.q.trim())}”</span><span class="s">New exercise${PK.mus!=='All'?` · ${PK.mus}`:''}</span></span><span class="plus">+</span></button>`:'')
+    ||'<div class="empty">No matches. Try another word.</div>';
+}
+
+/* ---------- plan editor: changes save as you go ---------- */
+let planEdit=null,planName='';
+const exDefaults=name=>{const p=planEx(name);return p?{sets:+p.sets||3,reps:p.reps||'8–12',rest:+p.rest||180}:{sets:3,reps:'8–12',rest:180}};
+const exLine=e=>`${e.muscle||guessMuscle(e.name)} · ${e.sets} × ${e.reps||'—'} · rest ${mmss(+e.rest||180)}`;
+function planDaySheet(wd,hl){
+  wd=+wd;if(planEdit!==wd)planName='';planEdit=wd;const pd=S.set.plan.days[wd],ex=pd&&pd.ex?pd.ex:[],others=WEEK_ORDER.filter(i=>i!==wd&&planDay(i));
   openSheet(DAYF[wd],`<div class="form">
-    ${others.length?`<div class="f"><span class="lab">Copy from</span><div class="chips">${others.map(i=>`<button type="button" class="chip" data-a="pcopy" data-x="${i}">${DAYN[i]} · ${esc(planDay(i).name)}</button>`).join('')}</div></div>`:''}
-    <label class="f"><span>Workout name</span><input name="pname" value="${esc(pd?pd.name:'')}" placeholder="Chest, biceps & triceps" maxlength="40" autocomplete="off"></label>
-    <div class="f"><span class="lab">Exercises, in order</span><div id="pex" style="display:grid;gap:12px">${(pd?pd.ex:[]).map(pexBlock).join('')}</div>
-      <button type="button" class="btn soft" data-a="padd">+ Add exercise</button></div>
-    ${pd?'<button type="button" class="btn soft danger" data-a="prest">Make it a rest day</button>':''}</div>
-    <datalist id="exlist">${knownExercises().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>`,
-    {label:'Save day',submit:f=>{
-      const ex=[...$('#pex').querySelectorAll('.pexb')].map(b=>({id:uid(),name:b.querySelector('.pname').value.trim(),sets:Math.max(1,Math.round(num(b.querySelector('.p-sets').value)||3)),reps:b.querySelector('.p-reps').value.trim(),rest:num(b.querySelector('.p-rest').value)||180,muscle:b.querySelector('.p-mus').value})).filter(e=>e.name);
-      S.set.plan.days[wd]=ex.length?{name:(f.get('pname')||'').trim()||'Workout',ex}:null;saveSettings();render();toast(ex.length?`${DAYF[wd]} saved`:`${DAYF[wd]} is a rest day`)}});
+    <label class="f"><span>Workout name</span><input name="pname" value="${esc(pd?pd.name:planName)}" placeholder="Chest, biceps & triceps" maxlength="40" autocomplete="off"></label>
+    <div class="f"><span class="lab">Exercises, in order</span>
+      ${ex.length?`<div class="list">${ex.map((e,i)=>`<div class="pe-row${hl===i?' hl':''}"><span class="pe-n">${i+1}</span><button type="button" class="pe-main" data-a="pexmenu" data-x="${i}"><span class="t">${esc(e.name)}</span><span class="s">${esc(exLine(e))}</span></button><button type="button" class="x" data-a="pexswap" data-x="${i}" aria-label="Swap ${esc(e.name)}">${ICON.swap}</button><button type="button" class="x" data-a="pexdel" data-x="${i}" aria-label="Remove ${esc(e.name)}">${ICON.trash}</button></div>`).join('')}</div>`
+        :'<div class="empty">Rest day. Add an exercise to make it a workout.</div>'}
+      <button type="button" class="btn soft" data-a="pexadd">+ Add exercise</button></div>
+    ${others.length?`<div class="f"><span class="lab">${ex.length?'Or replace it with a copy of':'Or copy another day'}</span><div class="chips">${others.map(i=>`<button type="button" class="chip" data-a="pcopy" data-x="${i}">${DAYN[i]} · ${esc(planDay(i).name)}</button>`).join('')}</div></div>`:''}
+    <p class="hint" style="margin:0">Changes save as you go. Tap an exercise to change its sets, reps, rest or order. ${ICON.swap.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px"')} swaps it, ${ICON.trash.replace('<svg','<svg style="width:15px;height:15px;vertical-align:-2px"')} removes it.</p>
+    ${ex.length&&!S.live?`<button type="button" class="btn soft" data-a="startwo" data-x="${wd}">${ICON.train} Start this workout now</button>`:''}
+    ${ex.length?'<button type="button" class="btn soft danger" data-a="prest">Make it a rest day</button>':''}
+    <button type="button" class="btn acc" data-a="close">Done</button></div>`,{btn:false});
+}
+function planMut(wd,fn,msg,hl){
+  const prev=structuredClone(S.set.plan.days[wd]);let d=S.set.plan.days[wd]?structuredClone(S.set.plan.days[wd]):{name:planName||'Workout',ex:[]};
+  fn(d);S.set.plan.days[wd]=d.ex.length?d:null;saveSettings();render();planDaySheet(wd,hl);
+  if(msg)toast(msg,()=>{S.set.plan.days[wd]=prev;saveSettings();render();if(planEdit===wd&&document.body.classList.contains('open'))planDaySheet(wd)});
+}
+const restSel=(name,v)=>`<select name="${name}">${[45,60,90,120,150,180,240,300].map(s=>`<option value="${s}"${(+v||180)===s?' selected':''}>${mmss(s)}</option>`).join('')}</select>`;
+function pexMenu(wd,i){
+  const d=S.set.plan.days[wd],e=d&&d.ex[i];if(!e)return;const n=d.ex.length;
+  openSheet(e.name,`<div class="form"><p class="hint" style="margin:0">${DAYF[wd]} · exercise ${i+1} of ${n}</p>
+    <div class="pg3"><label class="f"><span>Sets</span><input name="sets" type="number" inputmode="numeric" min="1" max="10" value="${+e.sets||3}"></label><label class="f"><span>Reps</span><input name="reps" value="${esc(e.reps||'8–12')}" maxlength="10"></label><label class="f"><span>Rest</span>${restSel('rest',e.rest)}</label></div>
+    <label class="f"><span>Muscle</span><select name="mus">${MUSCLES.map(m=>`<option${(e.muscle||guessMuscle(e.name))===m?' selected':''}>${m}</option>`).join('')}</select></label>
+    <button class="btn acc" type="submit">Save</button>
+    <div class="btns"><button type="button" class="btn soft" data-a="pexmove" data-x="${i}" data-d="-1"${i===0?' disabled':''}>${ICON.up} Move up</button><button type="button" class="btn soft" data-a="pexmove" data-x="${i}" data-d="1"${i===n-1?' disabled':''}>${ICON.down} Move down</button></div>
+    <button type="button" class="btn soft" data-a="pexswap" data-x="${i}">${ICON.swap} Swap for another exercise</button>
+    <button type="button" class="btn soft danger" data-a="pexdel" data-x="${i}">${ICON.trash} Remove from ${DAYF[wd]}</button>
+    <button type="button" class="link" data-a="planday" data-x="${wd}" style="justify-self:center">Back to ${DAYF[wd]}</button></div>`,
+    {btn:false,submit:f=>{planMut(wd,dd=>{const x=dd.ex[i];if(!x)return;x.sets=Math.min(10,Math.max(1,Math.round(num(f.get('sets'))||3)));x.reps=(f.get('reps')||'').trim()||'8–12';x.rest=num(f.get('rest'))||180;x.muscle=f.get('mus')||x.muscle},null,i);toast(`${e.name} saved`);return false}});
+}
+function pexSwap(wd,i){
+  const e=S.set.plan.days[wd]&&S.set.plan.days[wd].ex[i];if(!e)return;
+  exPicker({title:`Swap ${e.name}`,mus:e.muscle||guessMuscle(e.name),cur:e.name,back:()=>planDaySheet(wd),
+    onPick:n=>planMut(wd,d=>{d.ex[i]={...d.ex[i],id:uid(),name:n.name,muscle:n.muscle}},`Swapped ${e.name} for ${n.name}`,i)});
+}
+function pexAdd(wd){
+  const nm=field('pname');if(nm)planName=nm.value.trim();
+  exPicker({title:`Add to ${DAYF[wd]}`,back:()=>planDaySheet(wd),onPick:n=>{const df=exDefaults(n.name),at=S.set.plan.days[wd]?S.set.plan.days[wd].ex.length:0;
+    planMut(wd,d=>{if(!d.ex.length&&planName)d.name=planName;d.ex.push({id:uid(),name:n.name,muscle:n.muscle,...df})},`Added ${n.name} · ${df.sets} × ${df.reps}`,at)}});
 }
 
 /* ---------- training trends ---------- */
@@ -1566,6 +1914,12 @@ document.addEventListener('click',e=>{
   const a=b.dataset.a,x=b.dataset.x,k=todayKey();
   switch(a){
     case'tab':go(x);break;
+    case'acct':accountSheet();break;
+    case'connect':connectSheet();break;
+    case'pwreset':pwReset();break;
+    case'signout':signOutSheet();break;
+    case'signoutgo':signOutNow();break;
+    case'startlocal':startSheet();break;
     case'rep':reportSheet(x);break;
     case'top3':top3Sheet();break;
     case'reflect':reflectSheet();break;
@@ -1590,10 +1944,21 @@ document.addEventListener('click',e=>{
     case'restadj':{const L=S.live;if(!L||!L.restEnd)break;L.restEnd+=(+x)*1000;L.restTotal=Math.max(1,L.restTotal+(+x));if(L.restEnd<=Date.now())L.restEnd=null;saveLive();render();break}
     case'restskip':S.live.restEnd=null;saveLive();render();break;
     case'planday':planDaySheet(x);break;
-    case'padd':{const c=$('#pex');c.insertAdjacentHTML('beforeend',pexBlock({}));const ins=c.querySelectorAll('.pname');ins[ins.length-1].focus();break}
-    case'pdel':b.closest('.pexb').remove();break;
-    case'pup':{const bl=b.closest('.pexb'),pr=bl.previousElementSibling;if(pr)bl.parentNode.insertBefore(bl,pr);break}
-    case'pcopy':{const src=planDay(+x);if(!src)break;$('#pex').innerHTML=src.ex.map(pexBlock).join('');const n=field('pname');if(n)n.value=src.name;break}
+    case'pexadd':if(planEdit!=null)pexAdd(planEdit);break;
+    case'pexmenu':if(planEdit!=null)pexMenu(planEdit,+x);break;
+    case'pexswap':if(planEdit!=null)pexSwap(planEdit,+x);break;
+    case'pexdel':{if(planEdit==null)break;const wd=planEdit,e=S.set.plan.days[wd]&&S.set.plan.days[wd].ex[+x];if(e)planMut(wd,d=>{d.ex.splice(+x,1)},`Removed ${e.name}`);break}
+    case'pexmove':{if(planEdit==null)break;const i=+x,j=i+(+b.dataset.d);planMut(planEdit,d=>{if(j<0||j>=d.ex.length)return;[d.ex[i],d.ex[j]]=[d.ex[j],d.ex[i]]},null,j);break}
+    case'pcopy':{if(planEdit==null)break;const src=planDay(+x);if(!src)break;planMut(planEdit,d=>{d.name=src.name;d.ex=src.ex.map(e=>({...structuredClone(e),id:uid()}))},`Copied ${DAYF[+x]}`);break}
+    case'xmus':PK.mus=x;pickerRender();break;
+    case'xpick':{const e=PK.res[+x];if(e&&PK.onPick)PK.onPick({name:e.name,muscle:e.muscle});break}
+    case'xnew':{const name=PK.q.trim().replace(/\s+/g,' ');if(name&&PK.onPick)PK.onPick({name:name.slice(0,50),muscle:PK.mus!=='All'?PK.mus:guessMuscle(name)});break}
+    case'xback':if(PK.back)PK.back();else closeSheet();break;
+    case'livemenu':liveMenu();break;
+    case'liveswap':liveSwap();break;
+    case'liverm':liveRemove();break;
+    case'livemove':liveMove(+x);break;
+    case'livelast':liveLast();break;
     case'prest':{if(planEdit==null)break;const prev=structuredClone(S.set.plan.days[planEdit]),wd=planEdit;S.set.plan.days[wd]=null;saveSettings();closeSheet();render();toast(`${DAYF[wd]} is a rest day`,()=>{S.set.plan.days[wd]=prev;saveSettings();render()});break}
     case'goal':goalSheet();break;
     case'goaloff':{const prev=structuredClone(S.set.goal);S.set.goal=null;saveSettings();closeSheet();render();toast('Goal removed',()=>{S.set.goal=prev;saveSettings();render()});break}
@@ -1637,8 +2002,8 @@ document.addEventListener('click',e=>{
     case'qf':{const f=S.set.foods[+x];if(!f)break;const dk=S.foodDay||k,prev=structuredClone(day(dk));editDay(dk,d=>d.meals.push({id:uid(),name:f.name,kcal:f.kcal,protein:f.protein??null}));toast(`Added ${f.name}`,()=>restoreDay(dk,prev));break}
     case'del':{const dk=b.dataset.d,kind=b.dataset.k,prev=structuredClone(day(dk));editDay(dk,d=>{d[kind]=d[kind].filter(it=>it.id!==x)});toast('Deleted',()=>restoreDay(dk,prev));break}
     case'dellift':{const prev=structuredClone(S.lifts),en=S.lifts.entries.find(it=>it.id===x);S.lifts.entries=S.lifts.entries.filter(it=>it.id!==x);saveLifts();render();if(en)liftHistory(en.lift);toast('Set deleted',()=>{S.lifts=prev;saveLifts();render();if(en)liftHistory(en.lift)});break}
-    case'delphoto':{(async()=>{const blob=await photoGet(x).catch(()=>null);await photoDel(x);if(S.purl[x]){URL.revokeObjectURL(S.purl[x]);delete S.purl[x]}S.photos=S.photos.filter(p=>p!==x);render();
-      toast('Photo deleted',blob?async()=>{await photoPut(x,blob);S.photos.push(x);S.photos.sort();render()}:null)})();break}
+    case'delphoto':{(async()=>{const blob=await photoGet(x).catch(()=>null);await photoDel(x);if(S.purl[x]){URL.revokeObjectURL(S.purl[x]);delete S.purl[x]}S.photos=S.photos.filter(p=>p!==x);photoDown(x);touch('meta/photos');render();
+      toast('Photo deleted',blob?async()=>{await photoPut(x,blob);S.photos.push(x);S.photos.sort();photoUp(x,blob);touch('meta/photos');render()}:null)})();break}
     case'delliftdef':{const prev=structuredClone(S.lifts);S.lifts.list=S.lifts.list.filter(it=>it.id!==x);saveLifts();render();toast('Lift removed',()=>{S.lifts=prev;saveLifts();render()});break}
     case'delqf':{const prev=structuredClone(S.set.foods);S.set.foods.splice(+x,1);saveSettings();closeSheet();render();toast('Removed',()=>{S.set.foods=prev;saveSettings();render()});break}
     case'addliftdef':nameSheet('Add lift','Weighted pull-up',name=>{S.lifts.list.push({id:uid(),name});saveLifts()});break;
@@ -1671,18 +2036,22 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.class
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(S.live&&S.liveOpen)wake();render()}});
 
 /* ---------- start ---------- */
+if(window.__cloudConfig)window.__laps={S,SYNC};
 (async()=>{
   let first=false;
   try{
     idb=await openDB();const all=await kvAll();
-    for(const[k,v]of Object.entries(all)){if(k.startsWith('days/'))S.days[k.slice(5)]=normDay(v);else if(k==='meta/settings')S.set=normSettings(v);else if(k==='meta/lifts')S.lifts=normLifts(v);else if(k==='meta/live'&&v&&Array.isArray(v.items))S.live=v}
+    const sm=all['__sync']||{};SYNC.ts=sm.ts||{};SYNC.dirty=new Set(sm.dirty||[]);SYNC.uid=sm.uid||null;
+    for(const[k,v]of Object.entries(all)){if(k.startsWith('__'))continue;if(k.startsWith('days/'))S.days[k.slice(5)]=normDay(v);else if(k==='meta/settings')S.set=normSettings(v);else if(k==='meta/lifts')S.lifts=normLifts(v);else if(k==='meta/live'&&v&&Array.isArray(v.items))S.live=v}
     first=!all['meta/settings'];
     if(!first&&(!Array.isArray(all['meta/settings'].schedule)||!(all['meta/settings'].added&&all['meta/settings'].added.focus)))saveSettings();
     S.photos=((await photoKeys())||[]).map(String).filter(isDate).sort();
+    if(Array.isArray(all['meta/photos']))S.photos=[...new Set([...S.photos,...all['meta/photos'].filter(isDate)])].sort();
   }catch(e){S.storage='off'}
   try{if(navigator.storage&&navigator.storage.persist)S.persisted=await navigator.storage.persist()}catch(e){}
   applyAccent();S.ready=true;render();
-  if(first&&S.storage==='ok')welcome();
+  await initCloud();
+  if(first&&S.storage==='ok'&&!SYNC.user)welcome();
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 }

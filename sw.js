@@ -1,5 +1,5 @@
 /* Laps offline support. Bump VERSION whenever any file changes. */
-const VERSION = 'laps-4.1.0';
+const VERSION = 'laps-6.0.0';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png',
@@ -24,6 +24,12 @@ const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeo
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+
+  /* Link to your Laps sheet: always try for the latest, fall back to the saved copy offline. */
+  if (new URL(req.url).pathname.endsWith('/sync-url.txt')) {
+    e.respondWith(fetch(req).then(res => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); } return res; }).catch(() => caches.match(req)));
+    return;
+  }
 
   /* The page itself: try the network first so updates arrive, fall back to the saved copy offline. */
   if (req.mode === 'navigate') {
